@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Selection</title>
+</head>
+  <style>
+        label {
+      display: inline-block;
+      margin-bottom: 3px;
+    }
+
+    select {
+      margin-bottom: 6px;
+    }
+
+    .input-group {
+      display: inline-block;
+      align-items: baseline;
+    }
+
+    .input-group select {
+      margin-left: 6px;
+    }
+  </style>
+<body>
+<div class="input-group">
+<label for="brand">Hãng:</label>
+<select id="brand" onchange="updateModels()">
+  <option value="">-- Chọn thương hiệu --</option>
+  <option value="toyota">Toyota</option>
+  <option value="kia">Kia</option>
+  <option value="honda">Honda</option>
+</select>
+</div>
+<div class="input-group">
+<label for="model">Dòng xe:</label>
+<select id="model" onchange="updateYears()">
+  <option value="">-- Chọn mô hình --</option>
+</select></div>
+<div class="input-group">
+<label for="year">Năm:</label>
+<select id="year" onchange="updateEngines()">
+  <option value="">-- Chọn năm --</option>
+</select>
+</div>
+<div class="input-group">
+<label for="engine">Động cơ:</label>
+<select id="engine" onchange="embedLink()">
+  <option value="">-- Chọn động cơ --</option>
+</select>
+</div>
+<div id="iframe-container">
+<img src="images\frame.jpg" style="width:100%;height:600px;">
+</div>
+
+<script>
+  const models = {
+    kia: ['Kop', 'Lop', 'Kil'],
+    honda: ['Civic', 'City', 'HR-V'],
+    toyota: ['Vios', 'Yaris', 'Camry']
+  };
+
+  const years = {
+    kop: [2024, 2023, 2022],
+    kil: [2024, 2023, 2022],
+    civic: [2022, 2021, 2020],
+    city: [2024, 2023, 2022],
+    vios: [2019, 2018, 2017],
+    yaris: [2022, 2021, 2020]
+  };
+
+  const engines = {
+    'kop-2022': ['D2.0', 'D3.0', 'D4.0'],
+    'kil-2022': ['D2.0', 'D3.0', 'D4.0'],
+    'civic-2021': ['G 2.0 MPI', 'D 3.0 MPI', 'F 4.0 GDI'],
+    'city-2022': ['H 2.0 MPI', 'P 3.0 GDI', 'D 4.0 MPI'],
+    'vios-2019': ['2AZ', '3AZ', '4AZ'],
+    'vios-2019': ['5AZ', '6AZ', '7AZ'],
+    'yaris-2022': ['1NZ', '2NZ', '3NZ'],
+    'yaris-2021': ['6NZ', '8NZ', '5NZ']
+  };
+
+  function updateModels() {
+    const brand = document.getElementById('brand').value;
+    const modelSelect = document.getElementById('model');
+    modelSelect.innerHTML = "<option value=''>-- Chọn mô hình --</option>";
+
+    if (brand && models[brand]) {
+      models[brand].forEach(model => {
+        const option = document.createElement('option');
+        option.value = model.toLowerCase();
+        option.textContent = model;
+        modelSelect.appendChild(option);
+      });
+    }
+  }
+
+  function updateYears() {
+    const brand = document.getElementById('brand').value;
+    const model = document.getElementById('model').value;
+    const yearSelect = document.getElementById('year');
+    yearSelect.innerHTML = "<option value=''>-- Chọn năm --</option>";
+
+    if (brand && model && years[model]) {
+      years[model].forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+      });
+    }
+  }
+
+  function updateEngines() {
+    const brand = document.getElementById('brand').value;
+    const model = document.getElementById('model').value;
+    const year = document.getElementById('year').value;
+    const engineSelect = document.getElementById('engine');
+    engineSelect.innerHTML = "<option value=''>-- Chọn động cơ --</option>";
+
+    if (brand && model && year && engines[`${model}-${year}`]) {
+      engines[`${model}-${year}`].forEach(engine => {
+        const option = document.createElement('option');
+        option.value = engine.toLowerCase();
+        option.textContent = engine;
+        engineSelect.appendChild(option);
+      });
+    }
+  }
+
+  function embedLink() {
+    const brand = document.getElementById('brand').value;
+    const model = document.getElementById('model').value;
+    const year = document.getElementById('year').value;
+    const engine = document.getElementById('engine').value;
+
+    if (brand && model && year && engine) {
+      const link = `./Documents/${model}/${year}/engine/${engine.toLowerCase()}/index.html`;
+      const iframeContainer = document.getElementById('iframe-container');
+      const iframe = document.createElement('iframe');
+      iframe.src = link;
+      iframe.width = "100%";
+      iframe.height = "700";
+      iframeContainer.innerHTML = ""; // Clear previous iframe
+      iframeContainer.appendChild(iframe);
+    }
+  }
+</script>
+
+</body>
+</html>
